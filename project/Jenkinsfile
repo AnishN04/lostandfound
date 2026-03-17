@@ -34,7 +34,7 @@ pipeline {
                             }
                         )
                         // Deploy
-                        sh "docker compose up -d --force-recreate --remove-orphans"
+                        sh "docker-compose up -d --force-recreate --remove-orphans"
                         sh "docker image prune -f"
                     }
                 }
