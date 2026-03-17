@@ -43,7 +43,7 @@ services:
   prometheus:
     image: prom/prometheus:latest
     volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-config:/etc/prometheus/
     ports:
       - "9090:9090"
     networks:

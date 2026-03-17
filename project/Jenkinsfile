@@ -33,6 +33,10 @@ pipeline {
                                 }
                             }
                         )
+                        // Seed Prometheus config into a Docker volume
+                        sh "docker volume create prometheus-config || true"
+                        sh "docker run --rm -v prometheus-config:/config -v \$(pwd):/src busybox cp /src/prometheus/prometheus.yml /config/prometheus.yml"
+                        
                         // Deploy
                         sh "docker-compose up -d --force-recreate --remove-orphans"
                         sh "docker image prune -f"
