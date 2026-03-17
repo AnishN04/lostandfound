@@ -33,6 +33,9 @@ pipeline {
                                 }
                             }
                         )
+                        // FORCE CLEANUP: Delete the accidental directory and restore the file
+                        sh "rm -rf prometheus/prometheus.yml && git checkout prometheus/prometheus.yml"
+
                         // Seed Prometheus config into a Docker volume
                         sh "docker volume create prometheus-config || true"
                         sh "docker run --rm -v prometheus-config:/config -v \$(pwd):/src busybox cp /src/prometheus/prometheus.yml /config/prometheus.yml"
