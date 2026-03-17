@@ -33,13 +33,9 @@ pipeline {
                                 }
                             }
                         )
-                        // AGGRESSIVE REPAIR: Force-remove the accidental directory and restore file
-                        sh "rm -rf prometheus/prometheus.yml && git checkout prometheus/prometheus.yml"
-                        sh "ls -la prometheus/"
-
-                        // Seed Prometheus config into a Docker volume
+                        // Seed Prometheus config into a Docker volume using piping to avoid path issues
                         sh "docker volume create prometheus-config || true"
-                        sh "docker run --rm -v prometheus-config:/config -v \$(pwd):/src busybox cp /src/prometheus/prometheus.yml /config/prometheus.yml"
+                        sh "cat prometheus/prometheus.yml | docker run --rm -i -v prometheus-config:/config busybox sh -c 'cat > /config/prometheus.yml'"
                         
                         // Deploy
                         sh "docker-compose up -d --force-recreate --remove-orphans"
