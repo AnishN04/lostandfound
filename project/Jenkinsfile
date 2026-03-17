@@ -33,9 +33,6 @@ pipeline {
                                 }
                             }
                         )
-                        // Repair: Remove corrupted directory and restore file if needed
-                        sh "if [ -d prometheus/prometheus.yml ]; then rm -rf prometheus/prometheus.yml && git checkout prometheus/prometheus.yml; fi"
-
                         // Seed Prometheus config into a Docker volume
                         sh "docker volume create prometheus-config || true"
                         sh "docker run --rm -v prometheus-config:/config -v \$(pwd):/src busybox cp /src/prometheus/prometheus.yml /config/prometheus.yml"
