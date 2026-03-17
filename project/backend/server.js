@@ -7,14 +7,6 @@ const createUploadDirs = require('./src/utils/createDirs');
 const promClient = require('prom-client');
 
 // Connect to database
-// Set environment variables directly
-process.env.NODE_ENV = 'development';
-process.env.PORT = 5003;
-process.env.MONGO_URI = 'mongodb://localhost:27017/lostandfound';
-process.env.JWT_SECRET = 'your_jwt_secret_key';
-process.env.JWT_EXPIRE = '30d';
-process.env.JWT_COOKIE_EXPIRE = 30;
-
 connectDB();
 
 // Create upload directories
