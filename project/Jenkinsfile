@@ -1,0 +1,58 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_REGISTRY = "your-docker-registry" // Replace with yours if needed
+        BACKEND_IMAGE = "lost-and-found-backend"
+        FRONTEND_IMAGE = "lost-and-found-frontend"
+        VERSION = "${env.BUILD_NUMBER}"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build Artifacts') {
+            parallel {
+                stage('Backend') {
+                    steps {
+                        dir('backend') {
+                            sh "docker build -t ${BACKEND_IMAGE}:${VERSION} ."
+                            sh "docker tag ${BACKEND_IMAGE}:${VERSION} ${BACKEND_IMAGE}:latest"
+                        }
+                    }
+                }
+                stage('Frontend') {
+                    steps {
+                        dir('frontend') {
+                            sh "docker build -t ${FRONTEND_IMAGE}:${VERSION} ."
+                            sh "docker tag ${FRONTEND_IMAGE}:${VERSION} ${FRONTEND_IMAGE}:latest"
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                // Start or restart services with Docker Compose
+                sh "docker-compose up -d"
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
+        }
+        success {
+            echo 'Deployment successful!'
+        }
+        failure {
+            echo 'Deployment failed. Check logs.'
+        }
+    }
+}

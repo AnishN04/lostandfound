@@ -1,0 +1,48 @@
+# Environment Variables & Secrets
+###################################
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Dependency Directories
+###################################
+# Node.js dependencies
+/Shanmuk_project/frontend/node_modules
+/Shanmuk_project/backend/node_modules
+
+# Logs & Temporary Files
+###################################
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Build and Distribution Directories
+###################################
+/Shanmuk_project/frontend/dist
+/Shanmuk_project/frontend/build
+/Shanmuk_project/backend/dist
+/Shanmuk_project/backend/build
+
+# Operating System and IDE Files
+###################################
+# Mac
+.DS_Store
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# VS Code
+.vscode/
+
+# JetBrains IDEs
+.idea/
+
+# Other IDE files
+*.sublime-project
+*.sublime-workspace
+*.swp
