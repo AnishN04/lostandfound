@@ -1,22 +1,13 @@
-FROM node:14
-
-# Set the working directory
+# Stage 1: Build
+FROM node:14 AS build
 WORKDIR /usr/src/app
-
-# Copy package.json and package-lock.json
 COPY package*.json ./
-
-# Install dependencies
 RUN npm install
-
-# Copy the rest of the application code
 COPY . .
-
-# Build the application
 RUN npm run build
 
-# Expose the port the app runs on
+# Stage 2: Production
+FROM nginx:alpine
+COPY --from=build /usr/src/app/build /usr/share/nginx/html
 EXPOSE 80
-
-# Command to run the application
-CMD ["npm", "start"]
+CMD ["nginx", "-g", "daemon off;"]
