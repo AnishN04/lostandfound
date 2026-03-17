@@ -71,3 +71,5 @@ networks:
 
 volumes:
   mongo-data:
+  prometheus-config:
+    external: true
