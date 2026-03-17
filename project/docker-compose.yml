@@ -2,8 +2,7 @@ version: '3.8'
 
 services:
   backend:
-    build: 
-      context: ./backend
+    image: ${BACKEND_IMAGE:-lost-and-found-backend}:latest
     ports:
       - "5003:5003"
     environment:
@@ -12,16 +11,23 @@ services:
       - MONGO_URI=mongodb://mongo:27017/lostandfound
     depends_on:
       - mongo
+    deploy:
+      resources:
+        limits:
+          memory: 512M
     networks:
       - app-network
 
   frontend:
-    build:
-      context: ./frontend
+    image: ${FRONTEND_IMAGE:-lost-and-found-frontend}:latest
     ports:
       - "3000:80"
     depends_on:
       - backend
+    deploy:
+      resources:
+        limits:
+          memory: 256M
     networks:
       - app-network
 

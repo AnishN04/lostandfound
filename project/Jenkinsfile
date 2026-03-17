@@ -38,8 +38,10 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                // Start or restart services with Docker Compose
-                sh "docker-compose up -d"
+                // Efficiency: Force recreate to pick up new images immediately
+                sh "docker compose up -d --force-recreate --remove-orphans"
+                // Efficiency: Cleanup old images to save disk space
+                sh "docker image prune -f"
             }
         }
     }
